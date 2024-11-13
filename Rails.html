@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Train Arrival Countdown</title>
+</head>
+<body>
+    <table>
+        <tr>
+            <td>
+                <p>Nasa Cubao Steyshun ka sizwah. Train will arrive in <span id="countdown"></span></p>
+            </td>
+        </tr>
+    </table>
+    <div id="countdown"></div>
+
+    <script>
+    function displayCountdown() {
+      const scheduledArrivalTime = "18:30:00"; 
+      const now = new Date();
+      const nowTime = now.toLocaleTimeString('en-US', { hour12: false });
+
+      const timeDifferenceMs = getTimeDifferenceInMilliseconds(scheduledArrivalTime, nowTime);
+
+      if (timeDifferenceMs > 0) {
+        const minutesRemaining = Math.floor(timeDifferenceMs / (1000 * 60));
+        const secondsRemaining = Math.floor((timeDifferenceMs % (1000 * 60)) / 1000);
+
+        if (minutesRemaining === 5) {
+          alert("Train will arrive in 5 minutes!");
+        }
+
+        const countdownElement = document.getElementById("countdown");
+        countdownElement.textContent = `${minutesRemaining} minutes and ${secondsRemaining} seconds`;
+      } else {
+        // Pagdumating na train
+        const countdownElement = document.getElementById("countdown");
+        countdownElement.textContent = "Train has arrived or departed.";
+      }
+    }
+
+    function getTimeDifferenceInMilliseconds(scheduledTime, currentTime) {
+      const scheduledTimeParts = scheduledTime.split(':');
+      const scheduledDate = new Date();
+      scheduledDate.setHours(scheduledTimeParts[0], scheduledTimeParts[1], scheduledTimeParts[2]);
+
+      const currentTimeParts = currentTime.split(':');
+      const currentDate = new Date();
+      currentDate.setHours(currentTimeParts[0], currentTimeParts[1], currentTimeParts[2]);
+
+      return scheduledDate - currentDate;
+    }
+
+    // Update the countdown every second
+    setInterval(displayCountdown, 1000);
+    </script>
+</body>
+</html>
